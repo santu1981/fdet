@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding-top: 40px;
+        }
+        #uploadForm {
+            background-color: #fff;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #imagePreview {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+        #results {
+            text-align: left;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Face Detection App</h1>
+    <div id="uploadForm">
+        <h2>Upload an Image for Face Detection</h2>
+        <form id="imageUploadForm" enctype="multipart/form-data">
+            <input type="file" name="imageFile" id="imageFile" accept="image/*" required>
+            <br><br>
+            <button type="submit">Upload Image</button>
+        </form>
+        <div id="imagePreview"></div>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.getElementById('imageUploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('imageFile', document.getElementById('imageFile').files[0]);
+
+            try {
+                const response = await fetch('/detect', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        function displayResults(data) {
+            let resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <h2>Face Detection Results</h2>
+                <p>Number of faces detected: ${data.faces_detected}</p>
+                <p>Image width: ${data.image_width}px</p>
+                <p>Image height: ${data.image_height}px
+            `;
+            
+            let imagePreviewDiv = document.getElementById('imagePreview');
+            imagePreviewDiv.innerHTML = `
+                <h2>Uploaded Image Preview</h2>
+                <img src="${URL.createObjectURL(document.getElementById('imageFile').files[0])}" alt="Uploaded Image" style="max-width: 100%;">
+            `;
+        }
+    </script>
+</body>
+</html>
