@@ -17,8 +17,3 @@ async def detect_faces(imageFile: UploadFile = File(...)):
         return detection_results
     except requests.exceptions.RequestException as e:
         return JSONResponse(content={'error': str(e)}, status_code=500)
-
-
-if __name__ == '__main__':
-    import uvicorn
-    uvicorn.run(app)

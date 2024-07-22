@@ -4,7 +4,7 @@ import cv2
 
 app = FastAPI()
 
-@app.post("/detect")
+@app.post("/face_detection_app")
 async def detect_faces(imageFile: UploadFile = File(...)):
     # Read image file
     image_bytes = await imageFile.read()
