@@ -11,7 +11,7 @@ async def detect_faces(imageFile: UploadFile = File(...)):
 
     # Forward the image data to the face detection Python app
     try:
-        response = requests.post('https://your-vercel-project.vercel.app/face_detection_app', files={'imageFile': image_data})
+        response = requests.post('https://fdet-new.vercel.app/face_detection_app', files={'imageFile': image_data})
         response.raise_for_status()
         detection_results = response.json()
         return detection_results
