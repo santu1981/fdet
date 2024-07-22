@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/detect",
+      "methods": ["POST"],
+      "dest": "/api/detect"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static-build"
+    },
+    {
+      "src": "main.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "env": {
+    "PYTHONUSERBASE": "/vercel/workpath/.python",
+    "PYTHONWARNINGS": "ignore",
+    "VERCEL_DEV_ENTRYPOINT": "main.app"
+  }
+}
