@@ -11,9 +11,14 @@ async def detect_faces(imageFile: UploadFile = File(...)):
 
     # Forward the image data to the face detection Python app
     try:
-        response = requests.post('YOUR_PYTHON_APP_URL', files={'imageFile': image_data})
+        response = requests.post('https://your-vercel-project.vercel.app/face_detection_app', files={'imageFile': image_data})
         response.raise_for_status()
         detection_results = response.json()
         return detection_results
     except requests.exceptions.RequestException as e:
         return JSONResponse(content={'error': str(e)}, status_code=500)
+
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app)
